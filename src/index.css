@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 /* ... */
+@layer components {
+  .border-border {
+    @apply border-gray-300; 
+  }
+}
 
 @layer base {
   :root {
@@ -56,6 +61,13 @@
     --chart-5: 27 87% 67%;
 
     --radius: 0.5rem}
+    .bg-background {
+      background-color: hsl(var(--background));
+    }
+  
+    .text-foreground {
+      color: hsl(var(--foreground));
+    }
   .dark {
 
     --background: 240 10% 3.9%;
