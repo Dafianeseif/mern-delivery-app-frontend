@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form } from "react-router-dom";
 import { z } from "zod";
 import DetailsSection from "./DetailsSection";
 import { Separator } from "@radix-ui/react-separator";
@@ -9,6 +8,7 @@ import MenuSection from "./MenuSection";
 import ImageSection from "./ImageSection";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 
 const formSchema = z.object({
   restaurantName: z.string({
@@ -39,20 +39,20 @@ const formSchema = z.object({
   ),
   imageFile: z.instanceof(File, { message: "image is required" }),
 });
-type restaurantFormData = z.infer<typeof formSchema>;
+type RestaurantFormData = z.infer<typeof formSchema>;
 type Props = {
   onSave: (restaurantFormData: FormData) => void;
   isLoading: boolean;
 };
 const ManageRestaurantForm = ({ onSave, isLoading }: Props) => {
-  const form = useForm<restaurantFormData>({
+  const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       cuisines: [],
       menuItems: [{ name: "", price: 0 }],
     },
   });
-  const onSubmit = (formDataJson: restaurantFormData) => {
+  const onSubmit = (formDataJson: RestaurantFormData) => {
     const formData = new FormData();
     formData.append("restaurantName", formDataJson.restaurantName);
     formData.append("city", formDataJson.city);
@@ -63,7 +63,6 @@ const ManageRestaurantForm = ({ onSave, isLoading }: Props) => {
       "estimatedDeliveryTime",
       formDataJson.estimatedDeliveryTime.toString()
     );
-    formData.append("imageFile", formDataJson.imageFile);
 
     formDataJson.cuisines.forEach((cuisine, index) => {
       formData.append(`cuisines[${index}]`, cuisine);
@@ -73,6 +72,8 @@ const ManageRestaurantForm = ({ onSave, isLoading }: Props) => {
       formData.append(`menuItems[${index}][name]`, menuItem.name);
       formData.append(`menuItems[${index}][price]`, (menuItem.price*100).toString());
     });
+    formData.append("imageFile", formDataJson.imageFile);
+
 
     onSave(formData);
   };
