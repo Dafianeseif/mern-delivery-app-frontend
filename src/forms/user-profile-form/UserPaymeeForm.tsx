@@ -18,11 +18,12 @@ import { useEffect } from "react";
 
 const formSchema = z.object({
   email: z.string().optional(),
-  name: z.string().min(1, "name is required"),
+  firstName: z.string().min(1, "name is required"),
+  lastName: z.string().min(1, "Last Name is required"),
   addressLine1: z.string().min(1, "Address Line 1 is required"),
   city: z.string().min(1, "City is required"),
   country: z.string().min(1, "Country is required"),
-  phone: z.number().min(1, "Phone is required"),
+  phone: z.string().min(1, "Phone is required"),
 });
 
 export type UserFormData = z.infer<typeof formSchema>;
@@ -35,7 +36,7 @@ type Props = {
   buttonText?: string;
 };
 
-const UserProfileForm = ({
+const UserPaymeeForm = ({
   onSave,
   isLoading,
   currentUser,
@@ -78,10 +79,23 @@ const UserProfileForm = ({
 
         <FormField
           control={form.control}
-          name="name"
+          name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input {...field} className="bg-white" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
               <FormControl>
                 <Input {...field} className="bg-white" />
               </FormControl>
@@ -156,4 +170,4 @@ const UserProfileForm = ({
   );
 };
 
-export default UserProfileForm;
+export default UserPaymeeForm;
