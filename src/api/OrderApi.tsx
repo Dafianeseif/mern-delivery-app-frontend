@@ -10,22 +10,31 @@ export const useGetMyOrders = () => {
 
   const getMyOrdersRequest = async (): Promise<Order[]> => {
     const accessToken = await getAccessTokenSilently();
+
     const response = await fetch(`${API_BASE_URL}/api/order`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
-    if (!response.ok) throw new Error("Failed to get orders");
-    const data = await response.json();
-    return data.orders; // Extrait le tableau "orders"
+
+    if (!response.ok) {
+      throw new Error("Failed to get orders");
+    }
+
+    return response.json();
   };
 
   const { data: orders, isLoading } = useQuery(
     "fetchMyOrders",
     getMyOrdersRequest,
-    { refetchInterval: 5000 }
+    {
+      refetchInterval: 5000,
+    }
   );
 
   return { orders, isLoading };
 };
+
 type CheckoutSessionRequest = {
   cartItems: {
     menuItemId: string;
@@ -34,16 +43,13 @@ type CheckoutSessionRequest = {
   }[];
   deliveryDetails: {
     email: string;
-    firstname: string;
-    lastname: string;
-    phone: string;
+    name: string;
     addressLine1: string;
     city: string;
+    phone: string;
   };
   restaurantId: string;
 };
-
-
 
 export const useCreateCheckoutSession = () => {
   const { getAccessTokenSilently } = useAuth0();

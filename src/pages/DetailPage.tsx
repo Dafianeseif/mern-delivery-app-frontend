@@ -5,11 +5,12 @@ import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardFooter } from "@/components/ui/card";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { MenuItem as MenuItemType } from "../types";
 import CheckoutButton from "@/components/CheckoutButton";
-import { UserFormData } from "@/forms/user-profile-form/UserPaymeeForm";
+import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 import { useCreateCheckoutSession } from "@/api/OrderApi";
+import ScouterLoader from "@/components/ScouterLoader";
 
 export type CartItem = {
   _id: string;
@@ -20,9 +21,9 @@ export type CartItem = {
 
 const DetailPage = () => {
   const { restaurantId } = useParams();
-  const navigate = useNavigate();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
-  const { createCheckoutSession, isLoading: isCheckoutLoading } = useCreateCheckoutSession();
+  const { createCheckoutSession, isLoading: isCheckoutLoading } =
+    useCreateCheckoutSession();
 
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
@@ -44,25 +45,45 @@ const DetailPage = () => {
             : cartItem
         );
       } else {
-        updatedCartItems = [...prevCartItems, { ...menuItem, quantity: 1 }];
+        updatedCartItems = [
+          ...prevCartItems,
+          {
+            _id: menuItem._id,
+            name: menuItem.name,
+            price: menuItem.price,
+            quantity: 1,
+          },
+        ];
       }
-      console.log(updatedCartItems);
 
-      sessionStorage.setItem(`cartItems-${restaurantId}`, JSON.stringify(updatedCartItems));
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(updatedCartItems)
+      );
+
       return updatedCartItems;
     });
   };
 
   const removeFromCart = (cartItem: CartItem) => {
     setCartItems((prevCartItems) => {
-      const updatedCartItems = prevCartItems.filter((item) => cartItem._id !== item._id);
-      sessionStorage.setItem(`cartItems-${restaurantId}`, JSON.stringify(updatedCartItems));
+      const updatedCartItems = prevCartItems.filter(
+        (item) => cartItem._id !== item._id
+      );
+
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(updatedCartItems)
+      );
+
       return updatedCartItems;
     });
   };
 
   const onCheckout = async (userFormData: UserFormData) => {
-    if (!restaurant) return;
+    if (!restaurant) {
+      return;
+    }
 
     const checkoutData = {
       cartItems: cartItems.map((cartItem) => ({
@@ -72,42 +93,61 @@ const DetailPage = () => {
       })),
       restaurantId: restaurant._id,
       deliveryDetails: {
-        firstname: userFormData.firstName,
-        lastname: userFormData.lastName,
+        name: userFormData.name,
         addressLine1: userFormData.addressLine1,
         city: userFormData.city,
         country: userFormData.country,
-        email: userFormData.email ?? "",
-        phone: userFormData.phone,
+        email: userFormData.email as string,
+        phone: userFormData.phone ,
       },
     };
 
     const data = await createCheckoutSession(checkoutData);
-    navigate("/checkout", { state: { cartItems, paymentUrl: data.paymentUrl } });
+    window.location.href = data.url;
   };
 
   if (isLoading || !restaurant) {
-    return "Loading...";
+    return (
+          <div>
+          <ScouterLoader />
+        </div>
+        );
   }
+  
 
   return (
     <div className="flex flex-col gap-10">
       <AspectRatio ratio={16 / 5}>
-        <img src={restaurant.imageUrl} className="rounded-md object-cover h-full w-full" />
+        <img
+          src={restaurant.imageUrl}
+          className="rounded-md object-cover h-full w-full"
+        />
       </AspectRatio>
       <div className="grid md:grid-cols-[4fr_2fr] gap-5 md:px-32">
         <div className="flex flex-col gap-4">
           <RestaurantInfo restaurant={restaurant} />
           <span className="text-2xl font-bold tracking-tight">Menu</span>
           {restaurant.menuItems.map((menuItem) => (
-            <MenuItem key={menuItem._id} menuItem={menuItem} addToCart={() => addToCart(menuItem)} />
+            <MenuItem
+              menuItem={menuItem}
+              addToCart={() => addToCart(menuItem)}
+            />
           ))}
         </div>
+
         <div>
           <Card>
-            <OrderSummary restaurant={restaurant} cartItems={cartItems} removeFromCart={removeFromCart} />
+            <OrderSummary
+              restaurant={restaurant}
+              cartItems={cartItems}
+              removeFromCart={removeFromCart}
+            />
             <CardFooter>
-              <CheckoutButton disabled={cartItems.length === 0} onCheckout={onCheckout} isLoading={isCheckoutLoading} />
+              <CheckoutButton
+                disabled={cartItems.length === 0}
+                onCheckout={onCheckout}
+                isLoading={isCheckoutLoading}
+              />
             </CardFooter>
           </Card>
         </div>

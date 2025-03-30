@@ -9,6 +9,10 @@ import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import OrderStatusPage from "./pages/OrderStatusPage";
 import CheckoutPage from "./components/CheckoutPage";
+import RestaurantDetailPage from "./pages/RestaurantDetailPage";
+import ManageOrdersPage from "./pages/ManageOrdersPage";
+import AddRestaurantPage from "./pages/AddRestaurantPage";
+import AllRestaurantAdmin from "./pages/AllRestraurantAdmin";
 
 const AppRoutes = () => {
   return (
@@ -57,13 +61,25 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+      </Route>
+
+      <Route element={<ProtectedRoute adminOnly />}>
+        <Route path="/manage-restaurant" element={<ManageRestaurantPage />} />
         <Route
-          path="/manage-restaurant"
-          element={
-            <Layout>
-              <ManageRestaurantPage />
-            </Layout>
-          }
+          path="/admin/restaurants/:id"
+          element={<RestaurantDetailPage />}
+        />
+        <Route
+          path="/admin/orders"
+          element={ <ManageOrdersPage/>}
+        />
+        <Route
+          path="/admin/restaurants/add"
+          element={ <AddRestaurantPage/>}
+        />
+        <Route
+          path="/admin/restaurants"
+          element={ <AllRestaurantAdmin/>}
         />
       </Route>
 

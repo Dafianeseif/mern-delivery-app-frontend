@@ -1,13 +1,18 @@
 import { useGetMyOrders } from "@/api/OrderApi";
 import OrderStatusDetail from "@/components/OrderStatusDetail";
 import OrderStatusHeader from "@/components/OrderStatusHeader";
+import ScouterLoader from "@/components/ScouterLoader";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const OrderStatusPage = () => {
   const { orders, isLoading } = useGetMyOrders();
 
   if (isLoading) {
-    return "Loading...";
+    return (
+      <div>
+      <ScouterLoader />
+    </div>
+    );
   }
 
   if (!orders || orders.length === 0) {

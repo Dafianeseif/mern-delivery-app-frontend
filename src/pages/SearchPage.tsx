@@ -7,6 +7,8 @@ import SearchResultInfo from "@/components/SearchResultInfo";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import SortOptionsDropdown from "@/components/SortOptionDropdown";
+import ScouterLoader from "@/components/ScouterLoader";
+
 
 export type SearchState = {
   searchQuery: string;
@@ -71,8 +73,14 @@ const SearchPage = () => {
   };
 
   if (isLoading) {
-    return <span>Loading...</span>;
+    return (
+      <div>
+      <ScouterLoader />
+    </div>
+    );
   }
+  
+  
 
   if (!results?.data || !city) {
     return <span>No results found</span>;

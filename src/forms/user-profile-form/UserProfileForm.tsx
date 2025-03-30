@@ -22,7 +22,7 @@ const formSchema = z.object({
   addressLine1: z.string().min(1, "Address Line 1 is required"),
   city: z.string().min(1, "City is required"),
   country: z.string().min(1, "Country is required"),
-  phone: z.number().min(1, "Phone is required"),
+  phone: z.string().min(1, "Phone is required"),
 });
 
 export type UserFormData = z.infer<typeof formSchema>;
@@ -147,7 +147,7 @@ const UserProfileForm = ({
         {isLoading ? (
           <LoadingButton />
         ) : (
-          <Button type="submit" className="bg-orange-500">
+          <Button type="submit" className="bg-green-600">
             {buttonText}
           </Button>
         )}

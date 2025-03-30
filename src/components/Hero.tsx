@@ -1,8 +1,8 @@
-import hero from '../assets/hero.png';
+import hero from '../assets/Frame 1.png';
 export default function Hero() {
   return (
     <div>
-    <img src={hero} className='w-full max-h-[670px] object-cover'/>
+    <img src={hero} className='w-full max-h-[770px] object-cover'/>
     </div>
     
   )
