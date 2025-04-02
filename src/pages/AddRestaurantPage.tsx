@@ -1,6 +1,10 @@
 import { useCreateMyRestaurant } from "@/api/MyRestaurantApi";
 import { AdminSidebar } from "@/components/adminsidebar";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import ManageRestaurantForm from "@/forms/user-profile-form/manage-restaurant-form/ManageRestaurantForm";
 import { Separator } from "@radix-ui/react-separator";
@@ -26,7 +30,7 @@ const AddRestaurantPage = () => {
               className="bg-white p-6 rounded-lg shadow-md"
             >
               <ManageRestaurantForm
-                onSave={createRestaurant} 
+                onSave={(data) => createRestaurant(data.restaurantFormData)}
                 isLoading={isLoading}
               />
             </TabsContent>
