@@ -6,6 +6,7 @@ type Props = {
 };
 
 const OrderStatusDetail = ({ order }: Props) => {
+
   return (
     <div className="space-y-5">
       <div className="flex flex-col">
@@ -28,7 +29,7 @@ const OrderStatusDetail = ({ order }: Props) => {
       <Separator />
       <div className="flex flex-col">
         <span className="font-bold">Total</span>
-        <span>{order.totalAmount} TND</span>
+        <span>{((order.totalAmount)/100).toFixed(2)} TND</span>
       </div>
     </div>
   );

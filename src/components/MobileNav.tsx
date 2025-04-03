@@ -12,7 +12,7 @@ export default function MobileNav() {
   return (
     <Sheet>
      <SheetTrigger>
-        <Menu className='text-orange-500 '/>   
+        <Menu className='text-green-500 '/>   
      </SheetTrigger> 
      <SheetContent className='space-y-3'>
         <SheetTitle>

@@ -2,7 +2,7 @@
 import type * as React from "react"
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { BarChart3, ChevronRight, CircleUserRound, Home, ListOrdered, LogOut, Settings, Store, User } from "lucide-react"
+import {  ChevronRight, CircleUserRound, Home, ListOrdered, LogOut, Settings, Store, User } from "lucide-react"
 import { Link } from 'react-router-dom'
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
@@ -83,14 +83,7 @@ function NavMain() {
           </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>
-      <SidebarMenuItem>
-        <SidebarMenuButton asChild>
-          <Link to="/admin/analytics">
-            <BarChart3 />
-            <span>Analytics</span>
-          </Link>
-        </SidebarMenuButton>
-      </SidebarMenuItem>
+    
       <SidebarMenuItem>
         <SidebarMenuButton asChild>
           <Link to="/admin/settings">

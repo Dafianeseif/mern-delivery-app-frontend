@@ -14,7 +14,7 @@ const SearchResultCard = ({ restaurant }: Props) => {
       to={`/detail/${restaurant._id}`}
       className="grid lg:grid-cols-[2fr_3fr] gap-5 group"
     >
-      <AspectRatio ratio={16 / 6}>
+      <AspectRatio ratio={16 / 9} className="rounded-md overflow-hidden">
         <img
           src={restaurant.imageUrl}
           className="rounded-md w-full h-full object-cover"
@@ -34,8 +34,8 @@ const SearchResultCard = ({ restaurant }: Props) => {
             ))}
           </div>
           <div className="flex gap-2 flex-col">
-            <div className="flex items-center gap-1 text-green-600">
-              <Clock className="text-green-600" />
+            <div className="flex items-center gap-1 text-orange-600">
+              <Clock className="text-orange-600" />
               {restaurant.estimatedDeliveryTime} mins
             </div>
             <div className="flex items-center gap-1">

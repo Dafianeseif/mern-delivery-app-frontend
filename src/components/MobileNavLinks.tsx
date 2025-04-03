@@ -4,8 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const MobileNavLinks = () => {
   const { user, logout } = useAuth0();
-  const roles = user?.["https://mern-delivery-app.com/roles"] || []; // Récupérer les rôles
-  const isAdmin = roles.includes("admin"); // Vérifier si l'utilisateur est admin
+  const roles = user?.["https://mern-delivery-app.com/roles"] || []; 
+  const isAdmin = roles.includes("admin"); 
 
   return (
     <>
