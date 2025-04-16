@@ -1,7 +1,8 @@
-import { useCreateMyUser } from '@/api/MyUserApi';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCreateMyUser } from "@/api/MyUserApi";
+import ScouterLoader from "@/components/ScouterLoader";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthCallbackPage() {
   const navigate = useNavigate();
@@ -29,7 +30,9 @@ export default function AuthCallbackPage() {
 
       const claims = await getIdTokenClaims();
       console.log("Claims complets:", claims);
-      const roles = claims?.["https://mern-delivery-app.com/roles"] || ["client"];
+      const roles = claims?.["https://mern-delivery-app.com/roles"] || [
+        "client",
+      ];
       console.log("Roles:", roles);
       const isAdmin = Array.isArray(roles) && roles.includes("admin");
       console.log("Is Admin:", isAdmin);
@@ -46,5 +49,9 @@ export default function AuthCallbackPage() {
     });
   }, [isAuthenticated, user, createUser, navigate, getIdTokenClaims]);
 
-  return ;
+  return (
+    <div>
+      <ScouterLoader />
+    </div>
+  );
 }
