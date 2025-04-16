@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ScouterLoader from "@/components/ScouterLoader";
 
 export default function ProtectedRoute({ adminOnly = false }) {
   const { isAuthenticated, isLoading, getIdTokenClaims } = useAuth0();
@@ -18,7 +19,11 @@ export default function ProtectedRoute({ adminOnly = false }) {
   }, [isAuthenticated, getIdTokenClaims]);
 
   if (isLoading || isAdmin === null) {
-    return <div>Chargement...</div>;
+    return (
+      <div>
+      <ScouterLoader />
+    </div>
+    );
   }
 
   if (!isAuthenticated) {

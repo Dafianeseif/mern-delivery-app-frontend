@@ -4,8 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const MobileNavLinks = () => {
   const { user, logout } = useAuth0();
-  const roles = user?.["https://mern-delivery-app.com/roles"] || []; 
-  const isAdmin = roles.includes("admin"); 
+  const roles = user?.["https://mern-delivery-app.com/roles"] || [];
+  const isAdmin = roles.includes("admin");
 
   return (
     <>
@@ -15,13 +15,13 @@ const MobileNavLinks = () => {
       >
         Order Status
       </Link>
-      
-      {isAdmin && ( // Afficher "My Restaurant" uniquement si admin
+
+      {isAdmin && ( 
         <Link
           to="/manage-restaurant"
           className="flex bg-white items-center font-bold hover:text-green-500"
         >
-          My Restaurant
+          Manage Restaurants
         </Link>
       )}
 
@@ -31,7 +31,7 @@ const MobileNavLinks = () => {
       >
         User Profile
       </Link>
-      
+
       <Button
         onClick={() => logout()}
         className="flex items-center px-3 font-bold hover:bg-gray-500"

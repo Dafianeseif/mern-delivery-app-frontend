@@ -16,7 +16,6 @@ export default function AuthCallbackPage() {
         return;
       }
 
-      // Créer l'utilisateur si nécessaire
       if (user?.sub && user?.email && !hasCreatedUser.current) {
         try {
           console.log("Création de l'utilisateur...");
@@ -28,7 +27,6 @@ export default function AuthCallbackPage() {
         }
       }
 
-      // Vérifier le rôle
       const claims = await getIdTokenClaims();
       console.log("Claims complets:", claims);
       const roles = claims?.["https://mern-delivery-app.com/roles"] || ["client"];
@@ -36,12 +34,9 @@ export default function AuthCallbackPage() {
       const isAdmin = Array.isArray(roles) && roles.includes("admin");
       console.log("Is Admin:", isAdmin);
 
-      // Redirection
       if (isAdmin) {
-        console.log("Redirection vers /manage-restaurant");
         navigate("/manage-restaurant");
       } else {
-        console.log("Redirection vers /");
         navigate("/");
       }
     };
@@ -51,5 +46,5 @@ export default function AuthCallbackPage() {
     });
   }, [isAuthenticated, user, createUser, navigate, getIdTokenClaims]);
 
-  return <>Redirection en cours...</>;
+  return ;
 }

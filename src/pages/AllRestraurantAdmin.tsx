@@ -47,7 +47,6 @@ export default function  AllRestaurantAdmin() {
                 ))}
                 {restaurants?.length === 0 && (
                   <div className="col-span-full text-center py-10 text-muted-foreground">
-                    No restaurants found
                   </div>
                 )}
               </div>
